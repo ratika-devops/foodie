@@ -1,0 +1,179 @@
+definitions:
+  httputil.HTTPError:
+    properties:
+      code:
+        example: 400
+        type: integer
+      message:
+        example: status bad request
+        type: string
+    type: object
+  httputil.HTTPSuccess:
+    properties:
+      code:
+        example: 200
+        type: integer
+      message:
+        example: Successfully refreshed cache
+        type: string
+    type: object
+  model.FoodTruck:
+    properties:
+      address:
+        type: string
+      applicant:
+        type: string
+      approved:
+        type: string
+      block:
+        type: string
+      blocklot:
+        type: string
+      cnn:
+        type: string
+      expirationdate:
+        type: string
+      facilitytype:
+        type: string
+      fooditems:
+        type: string
+      latitude:
+        type: string
+      location:
+        $ref: '#/definitions/model.FoodTruckLocation'
+      locationdescription:
+        type: string
+      longitude:
+        type: string
+      lot:
+        type: string
+      objectid:
+        type: string
+      permit:
+        type: string
+      priorpermit:
+        type: string
+      received:
+        type: string
+      schedule:
+        type: string
+      status:
+        type: string
+      x:
+        type: string
+      "y":
+        type: string
+    type: object
+  model.FoodTruckLocation:
+    properties:
+      human_address:
+        type: string
+      latitude:
+        type: string
+      longitude:
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /cache/refresh:
+    get:
+      consumes:
+      - application/json
+      description: Refresh cache from data.sfgov.org
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/httputil.HTTPSuccess'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/httputil.HTTPError'
+      summary: Refresh cache from data.sfgov.org
+      tags:
+      - search
+  /searchby/address/{address}:
+    get:
+      consumes:
+      - application/json
+      description: Search by food truck address
+      parameters:
+      - description: Food Truck Address
+        in: path
+        name: address
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.FoodTruck'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/httputil.HTTPError'
+      summary: Search by food truck address
+      tags:
+      - search
+  /searchby/cousine/{cousine}:
+    get:
+      consumes:
+      - application/json
+      description: Search by cousine
+      parameters:
+      - description: Cousine, food served by food truck
+        in: path
+        name: cousine
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.FoodTruck'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/httputil.HTTPError'
+      summary: Search by cousine
+      tags:
+      - search
+  /searchby/truck/{truck}:
+    get:
+      consumes:
+      - application/json
+      description: Search by food truck name
+      parameters:
+      - description: Food truck name
+        in: path
+        name: truck
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.FoodTruck'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/httputil.HTTPError'
+      summary: Search by food truck name
+      tags:
+      - search
+swagger: "2.0"

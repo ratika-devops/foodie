@@ -1,0 +1,31 @@
+#VERSION := $(shell git describe --always --long)
+VERSION := 0.0.1
+
+all: build
+
+web-build:
+	@cd ../webui && make build
+
+deps:
+	@[ -f go.mod ] || { go mod init; }
+	@go mod vendor
+	@go mod tidy
+
+
+build: web-build
+	@set -x; rm -fR dist; mkdir -p dist
+	@set -x; rm -fR webui-docroot; cp -a ../webui/dist webui-docroot
+	@set -x; rm -f pkged.go server/pkged.go
+	@set -x; pkger  -include /webui-docroot
+	@set -x; sed 's/package main/package server/g' pkged.go > server/pkged.go
+	@set -x; rm -f pkged.go
+	@set -x; go build -v -ldflags "-X main.version=${VERSION}" -o dist/foodies
+	@set -x; ls -al dist/foodies
+
+run-server: build
+	@chmod 755 dist/foodies
+	@dist/foodies server
+
+clean:
+	@go clean -x
+

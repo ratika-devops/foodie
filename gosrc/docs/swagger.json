@@ -1,0 +1,273 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "contact": {}
+    },
+    "paths": {
+        "/cache/refresh": {
+            "get": {
+                "description": "Refresh cache from data.sfgov.org",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "search"
+                ],
+                "summary": "Refresh cache from data.sfgov.org",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/httputil.HTTPSuccess"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/httputil.HTTPError"
+                        }
+                    }
+                }
+            }
+        },
+        "/searchby/address/{address}": {
+            "get": {
+                "description": "Search by food truck address",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "search"
+                ],
+                "summary": "Search by food truck address",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Food Truck Address",
+                        "name": "address",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/model.FoodTruck"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/httputil.HTTPError"
+                        }
+                    }
+                }
+            }
+        },
+        "/searchby/cousine/{cousine}": {
+            "get": {
+                "description": "Search by cousine",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "search"
+                ],
+                "summary": "Search by cousine",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Cousine, food served by food truck",
+                        "name": "cousine",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/model.FoodTruck"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/httputil.HTTPError"
+                        }
+                    }
+                }
+            }
+        },
+        "/searchby/truck/{truck}": {
+            "get": {
+                "description": "Search by food truck name",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "search"
+                ],
+                "summary": "Search by food truck name",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Food truck name",
+                        "name": "truck",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/model.FoodTruck"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/httputil.HTTPError"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "httputil.HTTPError": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "integer",
+                    "example": 400
+                },
+                "message": {
+                    "type": "string",
+                    "example": "status bad request"
+                }
+            }
+        },
+        "httputil.HTTPSuccess": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "integer",
+                    "example": 200
+                },
+                "message": {
+                    "type": "string",
+                    "example": "Successfully refreshed cache"
+                }
+            }
+        },
+        "model.FoodTruck": {
+            "type": "object",
+            "properties": {
+                "address": {
+                    "type": "string"
+                },
+                "applicant": {
+                    "type": "string"
+                },
+                "approved": {
+                    "type": "string"
+                },
+                "block": {
+                    "type": "string"
+                },
+                "blocklot": {
+                    "type": "string"
+                },
+                "cnn": {
+                    "type": "string"
+                },
+                "expirationdate": {
+                    "type": "string"
+                },
+                "facilitytype": {
+                    "type": "string"
+                },
+                "fooditems": {
+                    "type": "string"
+                },
+                "latitude": {
+                    "type": "string"
+                },
+                "location": {
+                    "$ref": "#/definitions/model.FoodTruckLocation"
+                },
+                "locationdescription": {
+                    "type": "string"
+                },
+                "longitude": {
+                    "type": "string"
+                },
+                "lot": {
+                    "type": "string"
+                },
+                "objectid": {
+                    "type": "string"
+                },
+                "permit": {
+                    "type": "string"
+                },
+                "priorpermit": {
+                    "type": "string"
+                },
+                "received": {
+                    "type": "string"
+                },
+                "schedule": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "x": {
+                    "type": "string"
+                },
+                "y": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.FoodTruckLocation": {
+            "type": "object",
+            "properties": {
+                "human_address": {
+                    "type": "string"
+                },
+                "latitude": {
+                    "type": "string"
+                },
+                "longitude": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}
